@@ -1,0 +1,7 @@
+/src/main/resources/front-end/node_modules/
+/src/main/resources/front-end/package-lock.json
+/src/main/resources/application-local.yml
+/target/
+/src/main/resources/static/
+/web.iml
+/.idea/

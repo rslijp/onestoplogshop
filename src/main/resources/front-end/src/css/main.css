@@ -1,0 +1,67 @@
+:root {
+    --logo-height: 30px;
+    --logo-margin-top: 0px;
+    --logo-left-margin-at-login: 0px;
+    --header-height: calc(100% - 116px);
+    --header-font-size: inherit;
+}
+
+body {
+
+}
+
+.app {
+    width: 100%;
+    height: 100%;
+    color: red;
+}
+
+.navbar .headerLogo {
+    max-width: 600px;
+    height: var(--logo-height);
+    margin-top: var(--logo-margin-top);
+    margin-right: 20px;
+    margin-left: 20px;
+}
+
+.navbar .headerUserName {
+    color: white;
+    margin-right: 20px;
+    margin-left: 20px;
+}
+
+table.log-discovery {
+    width: calc(100% - 0.5rem);
+}
+
+table.log-discovery .log-at {
+    width: 210px;
+    white-space:nowrap;
+}
+
+table.log-discovery .log-level {
+    width: 80px;
+}
+
+table.log-discovery .log-location {
+    width: 180px;
+}
+
+table.log-discovery .log-location span {
+    max-width: 180px;
+    overflow-x: hidden;
+    display: inline-block;
+}
+
+table.log-discovery .log-message {
+    width: inherit;
+}
+
+table.log-discovery .log-action {
+    width: 50px;
+}
+
+table.log-discovery .detail h5 {
+    margin-top: 15px;
+    font-size: 18px;
+}

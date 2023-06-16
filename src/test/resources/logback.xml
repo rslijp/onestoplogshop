@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <contextName>unit test</contextName>
+
+    <appender name="STDOUT"
+              class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>
+                %black(%d{ISO8601}) %green(%contextName) %highlight(%-5level) [%blue(%t)] %yellow(%C{1.}): %msg%n%throwable
+            </pattern>
+        </encoder>
+    </appender>
+
+<!--    <appender name="SOCKET"-->
+<!--              class="ch.qos.logback.classic.net.SocketAppender">-->
+<!--        <remoteHost>127.0.0.1</remoteHost>-->
+<!--        <port>6000</port>-->
+<!--        <contextName>${HOSTNAME}</contextName>-->
+<!--    </appender>-->
+
+<!--    <appender name="ASYNC_SOCKET"-->
+<!--              class="ch.qos.logback.classic.AsyncAppender">-->
+<!--        <discardingThreshold>0</discardingThreshold> &lt;!&ndash; default 20, means drop lower event when has 20% capacity remaining &ndash;&gt;-->
+<!--        <appender-ref ref="SOCKET" />-->
+<!--        <queueSize>20</queueSize> &lt;!&ndash; default 256 &ndash;&gt;-->
+<!--        <includeCallerData>true</includeCallerData>&lt;!&ndash; default false &ndash;&gt;-->
+<!--        <neverBlock>false</neverBlock>&lt;!&ndash; default false, set to true to cause-->
+<!--            the Appender not block the application and just drop the messages &ndash;&gt;-->
+<!--    </appender>-->
+
+    <appender name="SSL_SOCKET"
+              class="ch.qos.logback.classic.net.SSLSocketAppender">
+        <remoteHost>127.0.0.1</remoteHost>
+        <port>6001</port>
+        <includeCallerData>true</includeCallerData><!-- default false -->
+        <ssl>
+            <trustStore>
+                <location>classpath:server.truststore</location>
+                <password>${SSL_TRUSTSTORE_PASSPHRASE}</password>
+            </trustStore>
+        </ssl>
+        <tags>env:dev</tags>
+    </appender>
+
+    <appender name="ASYNC_SSL_SOCKET"
+              class="ch.qos.logback.classic.AsyncAppender">
+        <discardingThreshold>0</discardingThreshold> <!-- default 20, means drop lower event when has 20% capacity remaining -->
+        <appender-ref ref="SSL_SOCKET" />
+        <queueSize>20</queueSize> <!-- default 256 -->
+        <includeCallerData>true</includeCallerData><!-- default false -->
+        <neverBlock>false</neverBlock><!-- default false, set to true to cause
+            the Appender not block the application and just drop the messages -->
+    </appender>
+
+    <!-- LOG everything at INFO yourExpertiseLevel -->
+    <root level="info">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="ASYNC_SSL_SOCKET" />
+    </root>
+
+</configuration>

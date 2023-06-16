@@ -1,0 +1,54 @@
+info:
+  version: 0.0.1
+  nodeId: onestoplogshop
+
+server:
+  servlet:
+    session:
+      timeout: 1800
+spring:
+  application:
+    name: expert-finder
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driverClassName: org.h2.Driver
+    username: sa
+    password: password
+#  thymeleaf:
+#    mode: HTML
+#    cache: false
+  jpa:
+    show-sql: false
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: none
+    open-in-view: true
+    properties:
+      hibernate:
+        format_sql: false
+        cache:
+          use_second_level_cache: false
+  h2:
+    console.enabled: true
+  web:
+    resources:
+      static-locations: classpath:/content/
+  security:
+    oauth2:
+      client:
+        provider:
+          azure:
+            issuer-uri: https://login.microsoftonline.com/<tenant-id>/v2.0
+        registration:
+          azure-dev:
+            provider: azure
+            client-id: <client-id>
+            client-secret: <client-secret>
+            scope:
+              - openid
+              - email
+              - profile
+
+listener:
+  socket:
+    port: 9000
