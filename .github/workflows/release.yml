@@ -5,6 +5,8 @@ name: Release
 # Controls when the workflow will run
 on:
   workflow_dispatch:
+env:
+  VERSION: '${{github.ref_name}}.${{ github.run_number }}'
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -50,7 +52,7 @@ jobs:
           mvn versions:set -DgenerateBackupPoms=false -DnewVersion=${{ env.VERSION }}
 
       - name: Build release
-        run: mvn clean install -Prelease -DskipTest=true
+        run: mvn clean install -DskipTest=true
 
       - name: Upload release
         uses: zattoo/publish@v1
