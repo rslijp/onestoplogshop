@@ -36,7 +36,7 @@ jobs:
           distribution: 'zulu'
 
       - name: Test with Maven
-        run: mvn -Pdevelopment clean install -s .github/settings.xml
+        run: mvn -Pdevelopment clean install
 
       - name: Publish Unit Test Results
         uses: EnricoMi/publish-unit-test-result-action@v1
