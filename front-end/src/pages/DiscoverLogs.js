@@ -1,6 +1,6 @@
 import {Alert, Badge, Button, Container, Table} from "react-bootstrap";
-import {faChevronDown, faChevronRight} from "@fortawesome/free-solid-svg-icons";
 import React, {useState} from "react";
+import {faChevronDown, faChevronRight} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import dayjs from "dayjs";
 
@@ -9,7 +9,7 @@ const BADGE_MAP = {
     'INFO': 'success',
     'WARN': 'warning',
     'ERROR': 'danger'
-}
+};
 
 const DATE_FORMAT = 'DD-MM-YYYY HH:mm:ss.SSS';
 
@@ -79,9 +79,9 @@ function DiscoverLogs() {
             {/*<td className={"log-location"}><span>{line.fileName}</span></td>*/}
             <td style={{"cursor": "pointer"}} onClick={()=>toggleExpansion(line.id)}>{expanded[line.id]?expandedRow(line):line.message}</td>
             <td style={{"cursor": "pointer"}} onClick={()=>toggleExpansion(line.id)}>{   expanded[line.id] ?
-                    <FontAwesomeIcon icon={faChevronDown} fixedWidth title={"collapse"}/>:
-                    <FontAwesomeIcon icon={faChevronRight} fixedWidth title={"expand"}/>
-                }
+                <FontAwesomeIcon icon={faChevronDown} fixedWidth title={"collapse"}/>:
+                <FontAwesomeIcon icon={faChevronRight} fixedWidth title={"expand"}/>
+            }
             </td>
         </tr>;
     }
@@ -92,12 +92,12 @@ function DiscoverLogs() {
         </tr>;
     }
 
-    function handleRefresh(e){
-        const bottom = e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight;
-        if (bottom && !logs.read) {
-            loadMore();
-        }
-    }
+    // function handleRefresh(e){
+    //     const bottom = e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight;
+    //     if (bottom && !logs.read) {
+    //         loadMore();
+    //     }
+    // }
 
     return <>
         <Table className={"log-discovery"} >
@@ -117,8 +117,8 @@ function DiscoverLogs() {
             </tbody>
         </Table>
         <Container>
-        {logs.state==='loaded'?<Button onClick={loadMore} variant={"secondary"}>Load more</Button>:null}
-        {logs.state==='error'?<Alert variant={"danger"} dismissible={false}>Something went wrong</Alert>:null}
+            {logs.state==='loaded'?<Button onClick={loadMore} variant={"secondary"}>Load more</Button>:null}
+            {logs.state==='error'?<Alert variant={"danger"} dismissible={false}>Something went wrong</Alert>:null}
         </Container>
     </>;
 }

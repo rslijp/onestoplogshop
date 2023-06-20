@@ -6,10 +6,10 @@ const CopyWebpackPlugin = require("copy-webpack-plugin");
 
 module.exports = {
     entry: "./src/index.js",
-    watch: true,
+    watch: false,
     output: {
         filename: "main.js",
-        path: path.resolve(__dirname, "..", "static"),
+        path: path.resolve(__dirname, "..", "web", "src", "main", "resources", "static"),
     },
     module: {
         // exclude node_modules
