@@ -52,5 +52,10 @@ jobs:
       - name: Build release
         run: mvn clean install -Prelease -DskipTest=true
 
+      - name: Upload release
+        uses: zattoo/publish@v1
+        with:
+          github_token: ${{github.token}}
+          sources: 'web/target/onestoplogshop-web-${{ env.VERSION }}.jar'
 #      - name: Upload release
 #        run: cd work && ./deploy.sh ${{ env.VERSION }} release && cd -
