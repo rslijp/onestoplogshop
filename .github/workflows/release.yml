@@ -81,7 +81,7 @@ jobs:
           verbose: true
 
       - name: Prepare build docker image
-        run: cp web/target/onestoplogshop-web-$*.jar docker
+        run: cp web/target/onestoplogshop-web-*.jar docker
 
       - name: Install docker tool
         uses: docker-practice/actions-setup-docker@master
