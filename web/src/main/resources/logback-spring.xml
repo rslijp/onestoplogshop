@@ -30,7 +30,7 @@
         <port>6001</port>
         <ssl>
             <keyStore>
-                <location>${SSL_KEYSTORE_PATH}}</location>
+                <location>${SSL_KEYSTORE_PATH}</location>
                 <password>${SSL_KEYSTORE_PASSPHRASE}</password>
             </keyStore>
         </ssl>
