@@ -89,6 +89,7 @@ jobs:
 
       - name: Build docker image
         run: |
+           echo "Token: $GITHUB_TOKEN"
            docker build -f docker/onestoplogshop-web-dockerfile --build-arg version=${{ env.VERSION }} -t nl.softcause/onestoplogshop:${{ env.VERSION }} ./docker/
-           echo @GITHUB_TOKEN | docker login ghcr.io -u USERNAME --password-stdin
+           echo $GITHUB_TOKEN | docker login ghcr.io -u USERNAME --password-stdin
            docker push ghcr.io/nl.softcause/onestoplogshop:${{ env.VERSION }}
