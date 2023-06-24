@@ -28,8 +28,7 @@ public class MvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-//        registry.addResourceHandler("/**").addResourceLocations("/", "classpath:/static/").setCachePeriod(-1);
-        registry.addResourceHandler("/**").addResourceLocations("/", "file:/Users/renzoslijp/Documents/workspace/softcause/onestoplogshop/src/main/resources/static/").setCachePeriod(-1);
+        registry.addResourceHandler("/**").addResourceLocations("/", "classpath:/static/").setCachePeriod(-1);
     }
 
     @Bean

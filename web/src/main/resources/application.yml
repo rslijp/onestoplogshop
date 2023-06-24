@@ -1,6 +1,6 @@
 info:
   version: 0.0.1
-  nodeId: onestoplogshop
+  nodeId: "${HOSTNAME}"
 
 server:
   servlet:
@@ -14,9 +14,9 @@ spring:
     driverClassName: org.h2.Driver
     username: sa
     password: password
-#  thymeleaf:
-#    mode: HTML
-#    cache: false
+  #  thymeleaf:
+  #    mode: HTML
+  #    cache: false
   jpa:
     show-sql: false
     database-platform: org.hibernate.dialect.H2Dialect
@@ -32,18 +32,18 @@ spring:
     console.enabled: true
   web:
     resources:
-      static-locations: classpath:/content/
+      static-locations: classpath:/static/
   security:
     oauth2:
       client:
         provider:
-          azure:
-            issuer-uri: https://login.microsoftonline.com/<tenant-id>/v2.0
+          default:
+            issuer-uri: ${SSO_ISSUER_URI}
         registration:
-          azure-dev:
-            provider: azure
-            client-id: <client-id>
-            client-secret: <client-secret>
+          default-sso:
+            provider: default
+            client-id: ${SSO_CLIENT_ID}
+            client-secret: ${SSO_CLIENT_SECRET}
             scope:
               - openid
               - email

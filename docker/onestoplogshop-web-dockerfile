@@ -1,0 +1,6 @@
+FROM openjdk:17-oracle
+ARG version
+COPY onestoplogshop-web-$version.jar /usr/local/software/
+RUN echo $version > /usr/local/software/image_version
+CMD IMAGE_VERSION=$(cat /usr/local/software/image_version) && java -jar /usr/local/software/onestoplogshop-web-$IMAGE_VERSION.jar --spring.profiles.active=socket-listener --info.version=$IMAGE_VERSION -Djava.security.egd=file:/dev/./urandom
+EXPOSE 8080

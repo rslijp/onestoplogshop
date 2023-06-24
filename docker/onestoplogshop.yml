@@ -1,0 +1,29 @@
+version: '3.1'
+
+services:
+
+  onestoplogshop-web:
+    container_name: onestoplogshop-web
+    image: nl.softcause/onestoplogshop:0.0.1-SNAPSHOT
+    restart: "no"
+    tty: true
+    environment:
+      SSL_KEYSTORE_PATH: "file:/usr/local/etc/server.keystore"
+      SSL_KEYSTORE_PASSPHRASE: changeit
+      SSO_ISSUER_URI: "https://login.microsoftonline.com/<tenant-id>/v2.0"
+      SSO_CLIENT_ID: "<client-id>"
+      SSO_CLIENT_SECRET: "<client-secret>"
+    ports:
+      - "8080:8080"
+      - "6000:6000"
+      - "6001:6001"
+      - "9000:9000"
+    networks:
+      - onestoplogshop-net
+    volumes:
+      - ./server.keystore:/usr/local/etc/server.keystore
+
+
+networks:
+  onestoplogshop-net:
+    driver: bridge

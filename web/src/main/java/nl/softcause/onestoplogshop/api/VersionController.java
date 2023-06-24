@@ -1,10 +1,8 @@
 package nl.softcause.onestoplogshop.api;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.datatype.jsr310.ser.InstantSerializer;
 import java.time.Instant;
-import javax.servlet.http.HttpServletResponse;
-import nl.softcause.onestoplogshop.OneStopLogShopApplication;
+import nl.softcause.onestoplogshop.util.InstantSerializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;

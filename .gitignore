@@ -2,6 +2,10 @@
 /src/main/resources/front-end/package-lock.json
 /src/main/resources/application-local.yml
 /target/
-/src/main/resources/static/
+/src/main/resources/static/*
 /web.iml
 /.idea/
+/docker/server.keystore
+/docker/onestoplogshop-web-0.0.1-SNAPSHOT.jar
+/web/src/main/resources/static/
+/docker/onestoplogshop-local.yml
