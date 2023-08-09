@@ -6,19 +6,15 @@
         <groupId>nl.softcause</groupId>
         <artifactId>onestoplogshop</artifactId>
         <version>0.0.1-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>onestoplogshop-frontend</artifactId>
-
+    <artifactId>frontend</artifactId>
+    <description>SoftCause :: OneStopLogShop :: Front-end</description>
+    <packaging>pom</packaging>
 
     <properties>
         <npm.helper>npm-helper.sh</npm.helper>
     </properties>
-
-
-    <description>SoftCause :: OneStopLogShop :: Front-end</description>
-    <packaging>pom</packaging>
 
     <build>
         <plugins>

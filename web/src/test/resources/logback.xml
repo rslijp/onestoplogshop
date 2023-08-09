@@ -52,7 +52,7 @@
             the Appender not block the application and just drop the messages -->
     </appender>
 
-    <!-- LOG everything at INFO yourExpertiseLevel -->
+    <!-- LOG everything at INFO -->
     <root level="info">
         <appender-ref ref="STDOUT" />
         <appender-ref ref="ASYNC_SSL_SOCKET" />
