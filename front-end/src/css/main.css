@@ -65,3 +65,7 @@ table.log-discovery .detail h5 {
     margin-top: 15px;
     font-size: 18px;
 }
+
+.table .log-property-key {
+    width: 200px;
+}

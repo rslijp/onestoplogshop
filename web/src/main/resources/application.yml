@@ -1,6 +1,6 @@
 info:
   version: 0.0.1
-  nodeId: "${HOSTNAME}"
+  nodeId: "${HOSTNAME}-onestoplogshop-web"
 
 server:
   servlet:
@@ -10,7 +10,7 @@ spring:
   application:
     name: expert-finder
   datasource:
-    url: jdbc:h2:mem:testdb
+    url: jdbc:h2:file:./onestoplogshop
     driverClassName: org.h2.Driver
     username: sa
     password: password
@@ -29,7 +29,7 @@ spring:
         cache:
           use_second_level_cache: false
   h2:
-    console.enabled: true
+    console.enabled: false
   web:
     resources:
       static-locations: classpath:/static/
@@ -48,6 +48,9 @@ spring:
               - openid
               - email
               - profile
+  sql:
+    init:
+      mode: always
 
 listener:
   socket:

@@ -67,6 +67,21 @@ function DiscoverLogs() {
             {line.className}.{line.methodName}<br/>
             <h5>Stacktrace</h5>
             {line.stackTrace||"-"}<br/>
+            {line.properties ?
+                <table>
+                    <thead>
+                        <tr>
+                            <th className={"log-property-key"}>Key</th>
+                            <th className={"log-property-value"}>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {Object.keys(line.properties).map(k=>
+                            <tr key={k}><td>{k}</td><td>{line.properties[k]||"-"}</td></tr>
+                        )}
+                    </tbody>
+                </table> :
+                null}
         </p>;
     }
 

@@ -14,7 +14,7 @@
     <appender name="H2DB" class="ch.qos.logback.classic.db.DBAppender">
             <connectionSource class="ch.qos.logback.core.db.DriverManagerConnectionSource">
                 <driverClass>org.h2.Driver</driverClass>
-                <url>jdbc:h2:mem:testdb;NON_KEYWORDS=value,deleted,end</url>
+                <url>jdbc:h2:file:./onestoplogshop;NON_KEYWORDS=value,deleted,end</url>
                 <user>sa</user>
                 <password>password</password>
             </connectionSource>
@@ -35,7 +35,6 @@
             </keyStore>
         </ssl>
     </receiver>
-
 
     <logger name="nl.softcause.onestoplogshop.connector.TextClientHandler" additivity="false" level="debug">
         <appender-ref ref="STDOUT"/>

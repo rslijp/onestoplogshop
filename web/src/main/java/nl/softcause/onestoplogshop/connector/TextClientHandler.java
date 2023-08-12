@@ -22,7 +22,9 @@ public class TextClientHandler implements Runnable {
     }
 
     public void run() {
-        MDC.put("host", clientSocket.getInetAddress().getHostName());
+        MDC.put("nodeId", clientSocket.getInetAddress().getHostName());
+        MDC.put("applicationName", "socketListener");
+        MDC.put("version", "-");
         try (var reader = new BufferedReader(
                 new InputStreamReader
                         (this.clientSocket.getInputStream(), StandardCharsets.UTF_8))) {

@@ -2,32 +2,32 @@ package nl.softcause.onestoplogshop;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class OneStopLogShopApplication {
-        private static final Logger logger = LoggerFactory.getLogger(OneStopLogShopApplication.class);
+    private static final Logger logger = LoggerFactory.getLogger(OneStopLogShopApplication.class);
+    private final String version;
+    private final String nodeId;
+    private final String applicationName;
 
-        public static void main(String[] args) {
-            logger.info("Booting application");
-//            for (int i = 0; i < args.length; i++) {
-//                if (args[i].equals("--enable-dev-captcha")) {
-//                    logger.warn("Development captcha enabled");
-//                    Captcha.DEV_CAPTCHA = true;
-//                }
-//                if (args[i].equals("--print-security-tokens")) {
-//                    logger.warn("Printing security tokens");
-//                    TwoFactorToken.showTokens();
-//                    ResetPasswordToken.showTokens();
-//                }
-//                if (args[i].equals("--no-uuid-caching")) {
-//                    logger.warn("Disabled UUID cache");
-//                    HibernateUUIDResolver.CACHE_ENABLED = false;
-//                    HibernateIDResolver.CACHE_ENABLED = false;
-//                }
-//            }
-            SpringApplication.run(OneStopLogShopApplication.class, args);
-        }
+    public OneStopLogShopApplication(@Value(value = "${info.version}") String version,
+                                     @Value(value = "${info.nodeId}") String nodeId,
+                                     @Value(value = "${spring.application.name}") String applicationName) {
+        this.version = version;
+        this.nodeId = nodeId;
+        this.applicationName = applicationName;
+        MDC.put("version", version);
+        MDC.put("nodeId", nodeId);
+        MDC.put("applicationName", applicationName);
+        logger.info("Booting application");
+    }
+
+    public static void main(String[] args) {
+        SpringApplication.run(OneStopLogShopApplication.class, args);
+    }
 
 }

@@ -57,21 +57,21 @@ module.exports = {
                 }]
         })
     ],
-    // devServer: {
-    //     static: {
-    //         directory: path.join(__dirname, ),
-    //     },
-    //     port: 3000,
-    //     proxy: {
-    //         '/api': {
-    //             target: 'http://localhost:8080',
-    //         },
-    //         '/oauth2/': {
-    //             target: 'http://localhost:8080',
-    //         },
-    //         '/login/': {
-    //             target: 'http://localhost:8080',
-    //         }
-    //     }
-    // }
+    devServer: {
+        static: {
+            directory: path.join(__dirname, ),
+        },
+        port: 3000,
+        proxy: {
+            '/api': {
+                target: 'http://localhost:8080',
+            },
+            '/oauth2/': {
+                target: 'http://localhost:8080',
+            },
+            '/login/': {
+                target: 'http://localhost:8080',
+            }
+        }
+    }
 };

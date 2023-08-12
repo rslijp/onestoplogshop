@@ -7,7 +7,6 @@ import nl.softcause.onestoplogshop.model.LogginEvent;
 import nl.softcause.onestoplogshop.model.LogginEventRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
