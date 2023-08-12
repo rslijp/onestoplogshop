@@ -10,16 +10,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class OneStopLogShopApplication {
     private static final Logger logger = LoggerFactory.getLogger(OneStopLogShopApplication.class);
-    private final String version;
-    private final String nodeId;
-    private final String applicationName;
 
     public OneStopLogShopApplication(@Value(value = "${info.version}") String version,
                                      @Value(value = "${info.nodeId}") String nodeId,
                                      @Value(value = "${spring.application.name}") String applicationName) {
-        this.version = version;
-        this.nodeId = nodeId;
-        this.applicationName = applicationName;
         MDC.put("version", version);
         MDC.put("nodeId", nodeId);
         MDC.put("applicationName", applicationName);
