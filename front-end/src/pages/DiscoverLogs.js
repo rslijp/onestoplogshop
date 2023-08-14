@@ -67,7 +67,7 @@ function DiscoverLogs() {
             {line.className}.{line.methodName}<br/>
             <h5>Stacktrace</h5>
             {line.stackTrace||"-"}<br/>
-            {line.properties ?
+            {line.properties && Object.keys(line.properties).length>0 ?
                 <table>
                     <thead>
                         <tr>
