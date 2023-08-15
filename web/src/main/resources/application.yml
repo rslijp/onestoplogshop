@@ -8,7 +8,7 @@ server:
       timeout: 1800
 spring:
   application:
-    name: expert-finder
+    name: onestoplogshop
   datasource:
     url: jdbc:h2:file:./onestoplogshop
     driverClassName: org.h2.Driver
