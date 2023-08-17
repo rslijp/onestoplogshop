@@ -4,7 +4,7 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 
-module.exports = {
+const config = {
     entry: "./src/index.js",
     watch: false,
     output: {
@@ -59,7 +59,7 @@ module.exports = {
     ],
     devServer: {
         static: {
-            directory: path.join(__dirname, ),
+            directory: path.join(__dirname,),
         },
         port: 3000,
         proxy: {
@@ -74,4 +74,13 @@ module.exports = {
             }
         }
     }
+}
+
+module.exports = (env, argv) => {
+    if (argv.mode === 'development') {
+        console.log("WATCHING")
+        config.watch=true;
+        config.output.path=path.resolve(__dirname, "..", "web", "target", "classes", "static");
+    }
+    return config;
 };

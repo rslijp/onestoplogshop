@@ -2,6 +2,7 @@ import {Button, Nav, Navbar} from "react-bootstrap";
 import React, {useState} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faRefresh} from "@fortawesome/free-solid-svg-icons";
+import {csrfToken} from "../utils/Cookies";
 function HeaderBar() {
     const [user, setUser] = useState({state: 'uninitialized', data: null});
     if(user.state ===  'uninitialized'){
@@ -9,6 +10,7 @@ function HeaderBar() {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
+                "X-XSRF-TOKEN": csrfToken()
             },
             redirect: "follow", // manual, *follow, error
             referrerPolicy: "no-referrer"

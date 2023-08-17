@@ -1,21 +1,23 @@
 package nl.softcause.onestoplogshop.api;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import java.util.Locale;
 import nl.softcause.onestoplogshop.model.LogginEvent;
 import nl.softcause.onestoplogshop.search.SearchRequestBase;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.jpa.domain.Specification;
 
 @JsonIgnoreProperties({"specification", "specificationWithoutExclusion"})
-public class LogeEventSearchRequest extends SearchRequestBase<LogginEvent> {
+public class LogEventSearchRequest extends SearchRequestBase<LogginEvent> {
 
     private Long fromId;
     private String message;
+    private String level;
 
     /**
      * @noinspection WeakerAccess
      */
-    public LogeEventSearchRequest() {
+    public LogEventSearchRequest() {
         super();
         setSortOn("id");
         setSortDir("DESC");
@@ -29,6 +31,9 @@ public class LogeEventSearchRequest extends SearchRequestBase<LogginEvent> {
         return (root, query, cb) -> cb.lessThan(root.get("id"), id);
     }
 
+    private static Specification<LogginEvent> isLevel(String level) {
+        return (root, query, cb) -> cb.equal(root.get("level"), level);
+    }
 
     @Override
     public Specification<LogginEvent> getSpecification() {
@@ -39,6 +44,11 @@ public class LogeEventSearchRequest extends SearchRequestBase<LogginEvent> {
         if (StringUtils.isNotBlank(message)) {
             String keyword = getMessage().toLowerCase();
             spec = add(spec, Specification.where(messageContainsIgnoreCase(keyword)));
+
+        }
+        if (StringUtils.isNotBlank(level)) {
+//            String level = getLevel().toLowerCase();
+            spec = add(spec, Specification.where(isLevel(level)));
 
         }
         return spec;
@@ -58,5 +68,13 @@ public class LogeEventSearchRequest extends SearchRequestBase<LogginEvent> {
 
     public void setFromId(Long fromId) {
         this.fromId = fromId;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
+    }
+
+    public String getLevel() {
+        return level;
     }
 }

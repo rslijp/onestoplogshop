@@ -3,6 +3,8 @@ import React, {useState} from "react";
 import {faChevronDown, faChevronRight} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import dayjs from "dayjs";
+import {csrfToken} from "../utils/Cookies";
+import DiscoverSearchForm from "./DiscoverySearchForm";
 
 const BADGE_MAP = {
     'DEBUG': 'primary',
@@ -14,7 +16,7 @@ const BADGE_MAP = {
 const DATE_FORMAT = 'DD-MM-YYYY HH:mm:ss.SSS';
 
 function DiscoverLogs() {
-    const [logs, setLogs] = useState({state: 'uninitialized', read: true, data: []});
+    const [logs, setLogs] = useState({state: 'uninitialized', form: {}, read: true, data: []});
     const [expanded, setExpanded] = useState({});
     if(logs.read){
         console.log(logs);
@@ -23,10 +25,13 @@ function DiscoverLogs() {
             fromId=logs.data[logs.data.length-1].id;
         }
         fetch(`/api/discover-logs/${fromId}`, {
-            method: "GET",
+            method: "POST",
             headers: {
                 "Content-Type": "application/json",
+                "X-XSRF-TOKEN": csrfToken(),
+                'Accept': 'application/json, text/javascript'
             },
+            body: JSON.stringify(logs.form),
             redirect: "follow",
             referrerPolicy: "no-referrer"
         }).
@@ -115,6 +120,8 @@ function DiscoverLogs() {
     // }
 
     return <>
+        <Container><DiscoverSearchForm form={logs.form}
+                                       setForm={(data)=>{setLogs({state: 'uninitialized', form: data, read: true, data: []})}}/></Container>
         <Table className={"log-discovery"} >
             <thead>
                 <tr>

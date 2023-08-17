@@ -9,6 +9,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,9 +26,9 @@ public class DiscoverLogController {
 
 
 
-    List<LogginEvent> retrieveBatchFrom(Long id){
+    List<LogginEvent> retrieveBatchFrom(LogEventSearchRequest request, Long id){
         logger.info("Returning data from id {}", id!=null?id.toString():"-");
-        var search = new LogeEventSearchRequest();
+        var search = request==null?new LogEventSearchRequest():request;
         search.setFromId(id);
         var result = repository.findAll(search.getSpecification(), search.asPageable()).getContent();
         logger.info("Found "+result.size()+" hits");
@@ -34,18 +36,18 @@ public class DiscoverLogController {
 //        return repository.findFirst20WithIdBeforeOrderDescById(id!=null?id:Long.MAX_VALUE);
     }
 
-    @GetMapping(path = "/api/discover-logs")
+    @PostMapping(path = "/api/discover-logs")
     public @ResponseBody
-    List<LogginEvent> retrieve() {
+    List<LogginEvent> retrieve(@RequestBody LogEventSearchRequest request) {
         logger.info("Initial query");
-        return retrieveBatchFrom(null);
+        return retrieveBatchFrom(request,null);
     }
 
-    @GetMapping(path = "/api/discover-logs/{id}")
+    @PostMapping(path = "/api/discover-logs/{id}")
     public @ResponseBody
-    List<LogginEvent> retrieve(@PathVariable Long id) {
+    List<LogginEvent> retrieve(@RequestBody LogEventSearchRequest request, @PathVariable Long id) {
         logger.info("Continuation query from {}", id);
-        return retrieveBatchFrom(id);
+        return retrieveBatchFrom(request, id);
     }
 
 }
