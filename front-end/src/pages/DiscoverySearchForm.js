@@ -1,11 +1,10 @@
-import {Col, Form, Row} from "react-bootstrap";
-import React from "react";
-import DateFilter from "./DateFilter";
 import "react-datepicker/dist/react-datepicker.css";
+import {Col, Form, Row} from "react-bootstrap";
+import {any, func, shape, string} from "prop-types";
+import DateFilter from "./DateFilter";
+import React from "react";
 
 const LEVELS = ['DEBUG', 'INFO', 'WARN', 'ERROR'];
-
-const DATE_FORMAT = 'DD-MM-YYYY HH:mm:ss.SSS';
 
 function DiscoverSearchForm({form, setForm}) {
 
@@ -15,11 +14,11 @@ function DiscoverSearchForm({form, setForm}) {
                 <Form.Group className="mb-3" controlId="formMessage">
                     <Form.Label>Messages containing</Form.Label>
                     <Form.Control type="text" placeholder="Enter keywords" value={form.message || ''}
-                                  autoComplete={"none"}
-                                  autoCorrect={"none"}
-                                  onChange={(e) => {
-                                      setForm({...form, message: e.target.value});
-                                  }}
+                        autoComplete={"none"}
+                        autoCorrect={"none"}
+                        onChange={(e) => {
+                            setForm({...form, message: e.target.value});
+                        }}
                     />
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="formLogLevel">
@@ -38,14 +37,16 @@ function DiscoverSearchForm({form, setForm}) {
             <Col>
                 <Form.Group className="mb-3" controlId="formLogLevel">
                     <Form.Label>From</Form.Label>
-                    <DateFilter value={form.startDate} limits={{min: null, max: form.endDate}} onChange={value => setForm({...form, startDate: value})}/>
+                    <DateFilter value={form.startDate} limits={{min: null, max: form.endDate}}
+                        onChange={value => setForm({...form, startDate: value})}/>
                     <Form.Text className="text-muted" onClick={() => setForm({...form, startDate: null})}>
                         clear
                     </Form.Text>
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="formLogLevel">
                     <Form.Label>Until</Form.Label>
-                    <DateFilter value={form.endDate} limits={{min: form.startDate, max: Date.now()}} onChange={value => setForm({...form, endDate: value})}/>
+                    <DateFilter value={form.endDate} limits={{min: form.startDate, max: Date.now()}}
+                        onChange={value => setForm({...form, endDate: value})}/>
                     <Form.Text className="text-muted" onClick={() => setForm({...form, endDate: null})}>
                         clear
                     </Form.Text>
@@ -54,5 +55,13 @@ function DiscoverSearchForm({form, setForm}) {
         </Row>
     </Form>;
 }
-
+DiscoverSearchForm.propTypes = {
+    form: shape({
+        message: string,
+        level: string,
+        fromDate: any,
+        toDate: any
+    }),
+    setForm: func
+};
 export default DiscoverSearchForm;

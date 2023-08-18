@@ -1,10 +1,10 @@
 import {Alert, Badge, Button, Container, Table} from "react-bootstrap";
 import React, {useState} from "react";
 import {faChevronDown, faChevronRight} from "@fortawesome/free-solid-svg-icons";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import dayjs from "dayjs";
-import {csrfToken} from "../utils/Cookies";
 import DiscoverSearchForm from "./DiscoverySearchForm";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {csrfToken} from "../utils/Cookies";
+import dayjs from "dayjs";
 
 const BADGE_MAP = {
     'DEBUG': 'primary',
@@ -121,7 +121,7 @@ function DiscoverLogs() {
 
     return <>
         <Container><DiscoverSearchForm form={logs.form}
-                                       setForm={(data)=>{setLogs({state: 'uninitialized', form: data, read: true, data: []})}}/></Container>
+            setForm={(data)=>{setLogs({state: 'uninitialized', form: data, read: true, data: []});}}/></Container>
         <Table className={"log-discovery"} >
             <thead>
                 <tr>

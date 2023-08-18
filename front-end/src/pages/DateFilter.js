@@ -1,6 +1,6 @@
 import {Button, Dropdown,FormControl, InputGroup} from "react-bootstrap";
 import React, {useState} from 'react';
-import {any, bool, func, shape} from "prop-types";
+import {any, func, shape} from "prop-types";
 import {faAngleDown,faAngleUp} from "@fortawesome/free-solid-svg-icons";
 import DatePicker from "react-datepicker";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
