@@ -1,9 +1,14 @@
 package nl.softcause.onestoplogshop.api;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import java.time.Instant;
 import java.util.Locale;
 import nl.softcause.onestoplogshop.model.LogginEvent;
 import nl.softcause.onestoplogshop.search.SearchRequestBase;
+import nl.softcause.onestoplogshop.util.InstantDeserializer;
+import nl.softcause.onestoplogshop.util.InstantSerializer;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.jpa.domain.Specification;
 
@@ -13,6 +18,13 @@ public class LogEventSearchRequest extends SearchRequestBase<LogginEvent> {
     private Long fromId;
     private String message;
     private String level;
+    @JsonSerialize(using = InstantSerializer.class)
+    @JsonDeserialize(using = InstantDeserializer.class)
+    private Instant startDate;
+
+    @JsonSerialize(using = InstantSerializer.class)
+    @JsonDeserialize(using = InstantDeserializer.class)
+    private Instant endDate;
 
     /**
      * @noinspection WeakerAccess
@@ -47,9 +59,15 @@ public class LogEventSearchRequest extends SearchRequestBase<LogginEvent> {
 
         }
         if (StringUtils.isNotBlank(level)) {
-//            String level = getLevel().toLowerCase();
             spec = add(spec, Specification.where(isLevel(level)));
 
+        }
+
+        if (startDate!=null) {
+             spec = add(spec, dateRangeFrom("epochTimeStamp", startDate));
+        }
+        if (endDate != null) {
+            spec = add(spec, dateRangeUntil("epochTimeStamp", endDate));
         }
         return spec;
     }
@@ -76,5 +94,21 @@ public class LogEventSearchRequest extends SearchRequestBase<LogginEvent> {
 
     public String getLevel() {
         return level;
+    }
+
+    public Instant getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Instant startDate) {
+        this.startDate = startDate;
+    }
+
+    public Instant getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Instant endDate) {
+        this.endDate = endDate;
     }
 }

@@ -1,6 +1,7 @@
 package nl.softcause.onestoplogshop.search;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.time.Instant;
 import org.springframework.data.jpa.domain.Specification;
 
 public abstract class SearchRequestBase<T> extends SearchRequest {
@@ -29,21 +30,21 @@ public abstract class SearchRequestBase<T> extends SearchRequest {
     protected Specification<T> dateRange(String field, final DateRange at) {
         Specification<T> spec = null;
         if (at.getMin() != null) {
-            spec = add(spec, dateRangeFrom(field, at));
+            spec = add(spec, dateRangeFrom(field, at.getMin()));
         }
         if (at.getMax() != null) {
-            spec = add(spec, dateRangeUntil(field, at));
+            spec = add(spec, dateRangeUntil(field, at.getMax()));
         }
         return spec;
     }
 
 
-    protected Specification<T> dateRangeFrom(final String field, final DateRange at) {
-        return (root, query, cb) -> cb.greaterThanOrEqualTo(root.get(field), at.getMin());
+    protected Specification<T> dateRangeFrom(final String field, final Instant from) {
+        return (root, query, cb) -> cb.greaterThanOrEqualTo(root.get(field), from.toEpochMilli());
     }
 
-    protected Specification<T> dateRangeUntil(final String field, final DateRange at) {
-        return (root, query, cb) -> cb.lessThanOrEqualTo(root.get(field), at.getMax());
+    protected Specification<T> dateRangeUntil(final String field, final Instant until) {
+        return (root, query, cb) -> cb.lessThanOrEqualTo(root.get(field), until.toEpochMilli());
     }
 
     @JsonIgnore

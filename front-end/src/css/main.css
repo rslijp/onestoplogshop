@@ -69,3 +69,23 @@ table.log-discovery .detail h5 {
 .table .log-property-key {
     width: 200px;
 }
+
+.react-datepicker-wrapper {
+    width: 100%;
+}
+
+.react-datepicker-wrapper input {
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    width: 100%;
+    border-radius: 3px;
+    border: 1px solid #ced4da;
+    height: calc(1.5em + .75rem + 2px);
+    padding: .375rem .75rem;
+}
+
+.react-datepicker-wrapper input:hover {
+    outline: none;
+}
