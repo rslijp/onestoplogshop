@@ -5,6 +5,7 @@ import DiscoverSearchForm from "./DiscoverySearchForm";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {csrfToken} from "../utils/Cookies";
 import dayjs from "dayjs";
+import {arrayOf, shape, string} from "prop-types";
 
 const BADGE_MAP = {
     'DEBUG': 'primary',
@@ -15,11 +16,10 @@ const BADGE_MAP = {
 
 const DATE_FORMAT = 'DD-MM-YYYY HH:mm:ss.SSS';
 
-function DiscoverLogs() {
-    const [logs, setLogs] = useState({state: 'uninitialized', form: {}, read: true, data: []});
+function DiscoverLogs({additionalColumns, additionalFilter}) {
+    const [logs, setLogs] = useState({state: 'uninitialized', form: {properties: {}}, read: true, data: []});
     const [expanded, setExpanded] = useState({});
     if(logs.read){
-        console.log(logs);
         let fromId = '';
         if(logs.data.length>0){
             fromId=logs.data[logs.data.length-1].id;
@@ -96,7 +96,7 @@ function DiscoverLogs() {
         return <tr key={line.id}>
             <td className={"log-at"}>{formattedDate}</td>
             <td><Badge bg={BADGE_MAP[line.level]||"light"}>{line.level}</Badge></td>
-            {/*<td className={"log-location"}><span>{line.fileName}</span></td>*/}
+            {additionalColumns.map(c=><td key={line.id+"-"+c.field}>{line.properties[c.field]}</td>)}
             <td style={{"cursor": "pointer"}} onClick={()=>toggleExpansion(line.id)}>{expanded[line.id]?expandedRow(line):line.message}</td>
             <td style={{"cursor": "pointer"}} onClick={()=>toggleExpansion(line.id)}>{   expanded[line.id] ?
                 <FontAwesomeIcon icon={faChevronDown} fixedWidth title={"collapse"}/>:
@@ -108,7 +108,7 @@ function DiscoverLogs() {
 
     function messageRow(message){
         return <tr>
-            <td colSpan={3}>{message}</td>
+            <td colSpan={3+additionalColumns.length}>{message}</td>
         </tr>;
     }
 
@@ -121,12 +121,15 @@ function DiscoverLogs() {
 
     return <>
         <Container><DiscoverSearchForm form={logs.form}
-            setForm={(data)=>{setLogs({state: 'uninitialized', form: data, read: true, data: []});}}/></Container>
+            setForm={(data)=>{setLogs({state: 'uninitialized', form: data, read: true, data: []});}}
+            additionalFilter={additionalFilter}
+        /></Container>
         <Table className={"log-discovery"} >
             <thead>
                 <tr>
                     <th className={"log-at"}>at</th>
                     <th className={"log-level"}>level</th>
+                    {additionalColumns.map(c=><th key={c.field} className={"log-"+c.field}>{c.name}</th>)}
                     {/*<th className={"log-location"}>location</th>*/}
                     <th className={"log-message"}>message</th>
                     <th className={"log-action"}>{" "}</th>
@@ -144,5 +147,14 @@ function DiscoverLogs() {
         </Container>
     </>;
 }
-
+DiscoverLogs.propTypes = {
+    additionalColumns:arrayOf(shape({
+            name: string,
+            field: string
+        })),
+    additionalFilter:arrayOf(shape({
+        name: string,
+        field: string
+    }))
+};
 export default DiscoverLogs;

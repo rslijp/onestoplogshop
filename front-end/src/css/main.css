@@ -89,3 +89,7 @@ table.log-discovery .detail h5 {
 .react-datepicker-wrapper input:hover {
     outline: none;
 }
+
+.filters .mb-3.message {
+    min-height: 110px;
+}

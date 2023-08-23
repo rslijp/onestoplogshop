@@ -1,0 +1,11 @@
+onestoplogshop:
+  additionalColumns:
+    - name: node
+      field: nodeId
+    - name: application
+      field: applicationName
+  additionalFilter:
+    - name: node
+      field: nodeId
+    - name: application
+      field: applicationName

@@ -2,6 +2,7 @@ package nl.softcause.onestoplogshop.search;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.Instant;
+import javax.persistence.criteria.MapJoin;
 import org.springframework.data.jpa.domain.Specification;
 
 public abstract class SearchRequestBase<T> extends SearchRequest {
@@ -24,6 +25,16 @@ public abstract class SearchRequestBase<T> extends SearchRequest {
 
     protected Specification<T> isEqual(String field, String value) {
         return (root, query, cb) -> cb.equal(root.get(field), value);
+    }
+
+    protected Specification<T> hasMapProperty(String name, String key, String value) {
+        return (root, query, cb) -> {
+            MapJoin<T, String, String> join = root.joinMap(name);
+            return cb.and(
+                    cb.equal(join.key(), key),
+                    cb.equal(join.value(), value)
+            );
+        };
     }
 
 

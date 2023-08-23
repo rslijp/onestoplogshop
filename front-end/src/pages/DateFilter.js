@@ -1,4 +1,4 @@
-import {Button, Dropdown,FormControl, InputGroup} from "react-bootstrap";
+import {Button, Dropdown, Form, FormControl, InputGroup} from "react-bootstrap";
 import React, {useState} from 'react';
 import {any, func, shape} from "prop-types";
 import {faAngleDown,faAngleUp} from "@fortawesome/free-solid-svg-icons";
@@ -7,7 +7,6 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import moment from "moment";
 
 function DateFilter({value, limits, onChange}) {
-    console.log(value, limits, onChange);
     const [expanded, setExpanded] = useState(false);
     const pickerFormat = 'dd-MM-yyyy hh:mm:ss';
     const format = 'DD[-]MM[-]YYYY[ ]HH[:]mm';
@@ -38,7 +37,7 @@ function DateFilter({value, limits, onChange}) {
             showMonthDropdown
         /></div> :null;
 
-    return (<Dropdown.Item as={"span"}>
+    return (<><Dropdown.Item as={"span"}>
         <InputGroup className="mb-3" onClick={()=>setExpanded(!expanded)}>
             <FormControl
                 style={{cursor: 'pointer'}}
@@ -50,7 +49,10 @@ function DateFilter({value, limits, onChange}) {
             <Button><FontAwesomeIcon icon={expanded?faAngleUp:faAngleDown}/></Button>
         </InputGroup>
         {itemContent}
-    </Dropdown.Item>);
+    </Dropdown.Item>
+        <Form.Text className="text-muted" onClick={() => {setExpanded(false);onDateChange(null)}}>
+            clear
+        </Form.Text></>);
 }
 DateFilter.propTypes = {
     value: any,

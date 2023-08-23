@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.time.Instant;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import nl.softcause.onestoplogshop.model.LogginEvent;
 import nl.softcause.onestoplogshop.search.SearchRequestBase;
 import nl.softcause.onestoplogshop.util.InstantDeserializer;
@@ -18,6 +20,8 @@ public class LogEventSearchRequest extends SearchRequestBase<LogginEvent> {
     private Long fromId;
     private String message;
     private String level;
+    private Map<String,String> properties = new HashMap<>();
+
     @JsonSerialize(using = InstantSerializer.class)
     @JsonDeserialize(using = InstantDeserializer.class)
     private Instant startDate;
@@ -69,6 +73,9 @@ public class LogEventSearchRequest extends SearchRequestBase<LogginEvent> {
         if (endDate != null) {
             spec = add(spec, dateRangeUntil("epochTimeStamp", endDate));
         }
+        for (var pair : properties.entrySet()) {
+            spec = add(spec,hasMapProperty("properties",pair.getKey(), pair.getValue()));
+        }
         return spec;
     }
 
@@ -110,5 +117,13 @@ public class LogEventSearchRequest extends SearchRequestBase<LogginEvent> {
 
     public void setEndDate(Instant endDate) {
         this.endDate = endDate;
+    }
+
+    public Map<String, String> getProperties() {
+        return properties;
+    }
+
+    public void setProperties(Map<String, String> properties) {
+        this.properties = properties;
     }
 }
