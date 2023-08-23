@@ -1,8 +1,8 @@
 import "react-datepicker/dist/react-datepicker.css";
 import {Col, Form, Row} from "react-bootstrap";
+import React, {useState} from "react";
 import {any, arrayOf, func, shape, string} from "prop-types";
 import DateFilter from "./DateFilter";
-import React, {useState} from "react";
 import {csrfToken} from "../utils/Cookies";
 
 const LEVELS = ['DEBUG', 'INFO', 'WARN', 'ERROR'];
@@ -32,24 +32,24 @@ function DiscoverSearchForm({form, setForm, additionalFilter}) {
         if(!filterLists[f.field]) {
             loadFilter(f.field);
         }
-    })
+    });
 
-    function MapAdditional({field, name}){
+    function mapAdditional(field, name){
         return <Form.Group className="mb-3" key={"form-"+field} controlId={"form-"+field}>
             <Form.Label>{name}</Form.Label>
             <Form.Select value={form.properties[field] || ''}  type="level"
-                         disabled={!filterLists[field]}
-                        onChange={(e) => {
-                let copy = {...form};
-                copy.properties={...form.properties};
-                copy.properties[field]=e.target.value;
-                setForm(copy);
-            }}>
+                disabled={!filterLists[field]}
+                onChange={(e) => {
+                    let copy = {...form};
+                    copy.properties={...form.properties};
+                    copy.properties[field]=e.target.value;
+                    setForm(copy);
+                }}>
                 <option value={''}>-</option>
                 {form.properties[field]?<option key={"selected"} value={form.properties[field]}>{form.properties[field]}</option>:null}
                 {(filterLists[field]||[]).filter(v=>v!==form[field]).map(p => <option value={p} key={p}>{p}</option>)}
             </Form.Select>
-        </Form.Group>
+        </Form.Group>;
     }
 
     return <Form className={"filters"}>
@@ -77,7 +77,7 @@ function DiscoverSearchForm({form, setForm, additionalFilter}) {
                         Or more severe
                     </Form.Text>
                 </Form.Group>
-                {additionalFilter.filter((f,i)=>i%2===0).map(f=><MapAdditional  key={f.field} field={f.field} name={f.name}/>)}
+                {additionalFilter.filter((f,i)=>i%2===0).map(f=>mapAdditional(f.field,f.field))}
             </Col>
             <Col>
                 <Form.Group className="mb-3" controlId="formLogLevel">
@@ -89,7 +89,7 @@ function DiscoverSearchForm({form, setForm, additionalFilter}) {
                     <Form.Label>Until</Form.Label>
                     <DateFilter value={form.endDate} limits={{min: form.startDate, max: Date.now()}}
                         onChange={value => setForm({...form, endDate: value})}/>
-                    {additionalFilter.filter((f,i)=>i%2===1).map(f=><MapAdditional  key={f.field} field={f.field} name={f.name}/>)}
+                    {additionalFilter.filter((f,i)=>i%2===1).map(f=>mapAdditional(f.field,f.field))}
                 </Form.Group>
             </Col>
         </Row>

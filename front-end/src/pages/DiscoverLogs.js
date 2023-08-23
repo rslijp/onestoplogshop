@@ -1,11 +1,11 @@
 import {Alert, Badge, Button, Container, Table} from "react-bootstrap";
 import React, {useState} from "react";
+import {arrayOf, shape, string} from "prop-types";
 import {faChevronDown, faChevronRight} from "@fortawesome/free-solid-svg-icons";
 import DiscoverSearchForm from "./DiscoverySearchForm";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {csrfToken} from "../utils/Cookies";
 import dayjs from "dayjs";
-import {arrayOf, shape, string} from "prop-types";
 
 const BADGE_MAP = {
     'DEBUG': 'primary',
@@ -149,9 +149,9 @@ function DiscoverLogs({additionalColumns, additionalFilter}) {
 }
 DiscoverLogs.propTypes = {
     additionalColumns:arrayOf(shape({
-            name: string,
-            field: string
-        })),
+        name: string,
+        field: string
+    })),
     additionalFilter:arrayOf(shape({
         name: string,
         field: string

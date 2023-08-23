@@ -1,7 +1,5 @@
-import DiscoverLogs from "./pages/DiscoverLogs";
-import FooterBar from "./layout/FooterBar";
-import HeaderBar from "./layout/HeaderBar";
 import React, {useState} from "react";
+import DiscoverLogs from "./pages/DiscoverLogs";
 import {csrfToken} from "./utils/Cookies";
 
 function OneStopLogPropertyLoader() {
@@ -15,16 +13,16 @@ function OneStopLogPropertyLoader() {
                 "X-XSRF-TOKEN": csrfToken(),
                 'Accept': 'application/json, text/javascript'
             },
-             redirect: "follow",
+            redirect: "follow",
             referrerPolicy: "no-referrer"
         }).
-        then(r=>r.json()).
-        then(r=>setProperties(r)).
-        catch((r)=>{
-            console.log(r);
-            setProperties(null);
-        });
-        return <i>Loadig settings</i>
+            then(r=>r.json()).
+            then(r=>setProperties(r)).
+            catch((r)=>{
+                console.log(r);
+                setProperties(null);
+            });
+        return <i>Loadig settings</i>;
     }
 
     return <DiscoverLogs additionalColumns={properties.additionalColumns} additionalFilter={properties.additionalFilter}/>;

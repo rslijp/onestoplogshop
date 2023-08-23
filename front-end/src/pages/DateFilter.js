@@ -50,9 +50,9 @@ function DateFilter({value, limits, onChange}) {
         </InputGroup>
         {itemContent}
     </Dropdown.Item>
-        <Form.Text className="text-muted" onClick={() => {setExpanded(false);onDateChange(null)}}>
+    <Form.Text className="text-muted" onClick={() => {setExpanded(false);onDateChange(null);}}>
             clear
-        </Form.Text></>);
+    </Form.Text></>);
 }
 DateFilter.propTypes = {
     value: any,
