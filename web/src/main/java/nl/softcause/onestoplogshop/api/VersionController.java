@@ -27,7 +27,6 @@ public class VersionController {
     @GetMapping(path = "/api/version")
     public @ResponseBody
     VersionStatus retrieve() {
-        logger.info("Api version call");
         return new VersionStatus(startedAt, version, nodeId);
     }
 

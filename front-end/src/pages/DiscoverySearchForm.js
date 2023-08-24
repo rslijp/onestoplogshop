@@ -41,8 +41,10 @@ function DiscoverSearchForm({form, setForm, additionalFilter}) {
                 disabled={!filterLists[field]}
                 onChange={(e) => {
                     let copy = {...form};
+                    let value = e.target.value;
+                    if(value === '') value=null;
                     copy.properties={...form.properties};
-                    copy.properties[field]=e.target.value;
+                    copy.properties[field]=value;
                     setForm(copy);
                 }}>
                 <option value={''}>-</option>
