@@ -83,9 +83,12 @@ jobs:
       - name: Prepare build docker image
         run: cp web/target/web-*.jar docker
 
-      - name: Install docker tool
-        uses: docker-practice/actions-setup-docker@master
-        timeout-minutes: 12
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+#      - name: Install docker tool
+#        uses: docker-practice/actions-setup-docker@master
+#        timeout-minutes: 12
 
       - name: Build docker image
         run: |
