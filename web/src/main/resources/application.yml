@@ -55,3 +55,7 @@ spring:
 listener:
   socket:
     port: 9000
+
+onestoplogshop:
+  maintenance:
+    max-rows: 500000

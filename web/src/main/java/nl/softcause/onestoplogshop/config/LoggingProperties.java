@@ -8,8 +8,8 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 
 @Configuration(proxyBeanMethods = false)
 @ConfigurationProperties(prefix = "onestoplogshop")
-@PropertySource(ignoreResourceNotFound = true, value = "file:/etc/logging.yml", factory = YamlPropertySourceFactory.class)
-@PropertySource(value = "classpath:logging.yml", factory = YamlPropertySourceFactory.class)
+@PropertySource(name="logging-properties", ignoreResourceNotFound = true, value = "file:/etc/logging.yml", factory = YamlPropertySourceFactory.class)
+@PropertySource(name="logging-properties", value = "classpath:logging.yml", factory = YamlPropertySourceFactory.class)
 public class LoggingProperties {
 
     private ColumnDTO[] additionalColumns;

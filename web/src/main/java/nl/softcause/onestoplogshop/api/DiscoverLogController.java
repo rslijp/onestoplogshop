@@ -27,11 +27,11 @@ public class DiscoverLogController {
 
 
     List<LogginEvent> retrieveBatchFrom(LogEventSearchRequest request, Long id){
-        logger.info("Returning data from id {}", id!=null?id.toString():"-");
+        logger.debug("Returning data from id {}", id!=null?id.toString():"-");
         var search = request==null?new LogEventSearchRequest():request;
         search.setFromId(id);
         var result = repository.findAll(search.getSpecification(), search.asPageable()).getContent();
-        logger.info("Found "+result.size()+" hits");
+        logger.debug("Found "+result.size()+" hits");
         return result;
 //        return repository.findFirst20WithIdBeforeOrderDescById(id!=null?id:Long.MAX_VALUE);
     }
@@ -39,14 +39,14 @@ public class DiscoverLogController {
     @PostMapping(path = "/api/discover-logs")
     public @ResponseBody
     List<LogginEvent> retrieve(@RequestBody LogEventSearchRequest request) {
-        logger.info("Initial query");
+        logger.debug("Initial query");
         return retrieveBatchFrom(request,null);
     }
 
     @PostMapping(path = "/api/discover-logs/{id}")
     public @ResponseBody
     List<LogginEvent> retrieve(@RequestBody LogEventSearchRequest request, @PathVariable Long id) {
-        logger.info("Continuation query from {}", id);
+        logger.debug("Continuation query from {}", id);
         return retrieveBatchFrom(request, id);
     }
 

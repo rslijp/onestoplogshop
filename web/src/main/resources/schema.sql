@@ -25,11 +25,11 @@ CREATE TABLE logging_event_property (
                                         mapped_key  VARCHAR(254) NOT NULL,
                                         mapped_value LONGVARCHAR,
                                         PRIMARY KEY(event_id, mapped_key),
-                                        FOREIGN KEY (event_id) REFERENCES logging_event(event_id));
+                                        FOREIGN KEY (event_id) REFERENCES logging_event(event_id) ON DELETE CASCADE);
 
 CREATE TABLE logging_event_exception (
                                          event_id BIGINT NOT NULL,
                                          i SMALLINT NOT NULL,
                                          trace_line VARCHAR(256) NOT NULL,
                                          PRIMARY KEY(event_id, i),
-                                         FOREIGN KEY (event_id) REFERENCES logging_event(event_id));
+                                         FOREIGN KEY (event_id) REFERENCES logging_event(event_id) ON DELETE CASCADE);

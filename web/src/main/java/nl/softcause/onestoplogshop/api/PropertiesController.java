@@ -29,14 +29,14 @@ public class PropertiesController {
     @GetMapping(path = "/api/properties")
     public @ResponseBody
     LoggingProperties retrieve() {
-        logger.info("Api properties call");
+        logger.debug("Api properties call");
         return properties;
     }
 
     @GetMapping(path = "/api/property-values/{field}")
     public @ResponseBody
     List<String> retrieve(@PathVariable String field) {
-        logger.info("Api properties call");
+        logger.debug("Api property values call");
         return logginEventRepository.findFieldValues(field);
     }
 }
