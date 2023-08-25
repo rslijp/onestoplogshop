@@ -42,7 +42,7 @@ function DiscoverSearchForm({form, setForm, additionalFilter}) {
                 onChange={(e) => {
                     let copy = {...form};
                     let value = e.target.value;
-                    if(value === '') value=null;
+                    if(value === '' || value === '-' || value === null) value=undefined;
                     copy.properties={...form.properties};
                     copy.properties[field]=value;
                     setForm(copy);
