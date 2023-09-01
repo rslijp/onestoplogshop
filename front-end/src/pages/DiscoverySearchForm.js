@@ -8,7 +8,7 @@ import {csrfToken} from "../utils/Cookies";
 const LEVELS = ['DEBUG', 'INFO', 'WARN', 'ERROR'];
 
 function DiscoverSearchForm({form, setForm, additionalFilter}) {
-    const [filterLists, setFilterLists] = useState({});
+    const [filterLists, setFilterLists] = useState(null);
 
     function loadFilter(field){
         fetch(`/api/property-values/${field}`, {
@@ -28,11 +28,15 @@ function DiscoverSearchForm({form, setForm, additionalFilter}) {
         });
     }
 
-    additionalFilter.forEach(f=>{
-        if(!filterLists[f.field]) {
-            loadFilter(f.field);
-        }
-    });
+    if(filterLists === null) {
+        additionalFilter.forEach(f => {
+            if (!filterLists[f.field]) {
+                loadFilter(f.field);
+            }
+        });
+        setFilterLists({});
+        return null;
+    }
 
     function mapAdditional(field, name){
         return <Form.Group className="mb-3" key={"form-"+field} controlId={"form-"+field}>

@@ -58,4 +58,4 @@ listener:
 
 onestoplogshop:
   maintenance:
-    max-rows: 500000
+    max-rows: 100000
