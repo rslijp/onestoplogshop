@@ -1,6 +1,6 @@
 import "react-datepicker/dist/react-datepicker.css";
 import {Col, Form, Row} from "react-bootstrap";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {any, arrayOf, func, shape, string} from "prop-types";
 import DateFilter from "./DateFilter";
 import {csrfToken} from "../utils/Cookies";
@@ -8,9 +8,10 @@ import {csrfToken} from "../utils/Cookies";
 const LEVELS = ['DEBUG', 'INFO', 'WARN', 'ERROR'];
 
 function DiscoverSearchForm({form, setForm, additionalFilter}) {
-    const [filterLists, setFilterLists] = useState(null);
+    const [filterLists, setFilterLists] = useState({});
 
     function loadFilter(field){
+
         fetch(`/api/property-values/${field}`, {
             method: "GET",
             headers: {
@@ -28,15 +29,15 @@ function DiscoverSearchForm({form, setForm, additionalFilter}) {
         });
     }
 
-    if(filterLists === null) {
-        additionalFilter.forEach(f => {
+    useEffect(() => {
+        for (var i in additionalFilter){
+            const f = additionalFilter[i];
             if (!filterLists[f.field]) {
                 loadFilter(f.field);
+                return;
             }
-        });
-        setFilterLists({});
-        return null;
-    }
+        }
+    }, [filterLists]);
 
     function mapAdditional(field, name){
         return <Form.Group className="mb-3" key={"form-"+field} controlId={"form-"+field}>
