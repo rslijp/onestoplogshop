@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.time.Instant;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 import nl.softcause.onestoplogshop.model.LogginEvent;
 import nl.softcause.onestoplogshop.search.SearchRequestBase;
@@ -20,7 +19,7 @@ public class LogEventSearchRequest extends SearchRequestBase<LogginEvent> {
     private Long fromId;
     private String message;
     private String level;
-    private Map<String,String> properties = new HashMap<>();
+    private Map<String, String> properties = new HashMap<>();
 
     @JsonSerialize(using = InstantSerializer.class)
     @JsonDeserialize(using = InstantDeserializer.class)
@@ -54,7 +53,7 @@ public class LogEventSearchRequest extends SearchRequestBase<LogginEvent> {
     @Override
     public Specification<LogginEvent> getSpecification() {
         Specification<LogginEvent> spec = null;
-        if(fromId !=null){
+        if (fromId != null) {
             spec = add(spec, Specification.where(messageFromId(fromId)));
         }
         if (StringUtils.isNotBlank(message)) {
@@ -67,14 +66,16 @@ public class LogEventSearchRequest extends SearchRequestBase<LogginEvent> {
 
         }
 
-        if (startDate!=null) {
-             spec = add(spec, dateRangeFrom("epochTimeStamp", startDate));
+        if (startDate != null) {
+            spec = add(spec, dateRangeFrom("epochTimeStamp", startDate));
         }
         if (endDate != null) {
             spec = add(spec, dateRangeUntil("epochTimeStamp", endDate));
         }
         for (var pair : properties.entrySet()) {
-            spec = add(spec,hasMapProperty("properties",pair.getKey(), pair.getValue()));
+            if (pair.getValue() != null) {
+                spec = add(spec, hasMapProperty("properties", pair.getKey(), pair.getValue()));
+            }
         }
         return spec;
     }
