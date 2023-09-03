@@ -40,7 +40,7 @@ public class SocketClientFactory implements Runnable {
 
                 // Displaying that new client is connected
                 // to server
-                logger.info("New client connected {}",client.getInetAddress().getHostAddress());
+                logger.debug("New client connected {}",client.getInetAddress().getHostAddress());
 
                 // create a new thread object
                 var clientSock
