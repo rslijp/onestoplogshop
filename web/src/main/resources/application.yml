@@ -54,7 +54,14 @@ spring:
 
 listener:
   socket:
-    port: 9000
+    port:
+      plain: 9000
+      logback: 6000
+      ssllogback: 6001
+    ssl-keystore:
+      location: ${SSL_KEYSTORE_PATH}
+      passphrase: ${SSL_KEYSTORE_PASSPHRASE}
+
 
 onestoplogshop:
   maintenance:

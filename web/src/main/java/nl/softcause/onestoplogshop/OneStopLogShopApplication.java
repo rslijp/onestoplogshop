@@ -6,8 +6,10 @@ import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.scheduling.annotation.EnableAsync;
 
 @SpringBootApplication
+@EnableAsync(proxyTargetClass = true)
 public class OneStopLogShopApplication {
     private static final Logger logger = LoggerFactory.getLogger(OneStopLogShopApplication.class);
 

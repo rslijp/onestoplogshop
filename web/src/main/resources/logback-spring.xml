@@ -11,40 +11,55 @@
         </encoder>
     </appender>
 
-    <appender name="H2DB" class="ch.qos.logback.classic.db.DBAppender">
-            <connectionSource class="ch.qos.logback.core.db.DriverManagerConnectionSource">
-                <driverClass>org.h2.Driver</driverClass>
-                <url>jdbc:h2:file:./onestoplogshop;NON_KEYWORDS=value,deleted,end</url>
-                <user>sa</user>
-                <password>password</password>
-            </connectionSource>
-<!--        <param name="arg0" value="contextName"/>-->
-<!--        <insertPropertiesSQL>contextName</insertPropertiesSQL>-->
+<!--    <appender name="H2DB" class="ch.qos.logback.classic.db.DBAppender">-->
+<!--            <connectionSource class="ch.qos.logback.core.db.DriverManagerConnectionSource">-->
+<!--                <driverClass>org.h2.Driver</driverClass>-->
+<!--                <url>jdbc:h2:file:./onestoplogshop;NON_KEYWORDS=value,deleted,end</url>-->
+<!--                <user>sa</user>-->
+<!--                <password>password</password>-->
+<!--            </connectionSource>-->
+<!--&lt;!&ndash;        <param name="arg0" value="contextName"/>&ndash;&gt;-->
+<!--&lt;!&ndash;        <insertPropertiesSQL>contextName</insertPropertiesSQL>&ndash;&gt;-->
+<!--    </appender>-->
+
+    <appender name="SOCKET"
+              class="ch.qos.logback.classic.net.SocketAppender">
+        <remoteHost>127.0.0.1</remoteHost>
+        <port>6000</port>
     </appender>
 
-    <receiver class="ch.qos.logback.classic.net.server.ServerSocketReceiver">
-        <port>6000</port>
-    </receiver>
+<!--    <appender name="SSL_SOCKET"-->
+<!--              class="ch.qos.logback.classic.net.SSLSocketAppender">-->
+<!--        <remoteHost>onestoplogshop-service</remoteHost>-->
+<!--        <port>6001</port>-->
+<!--        <ssl>-->
+<!--            <trustStore>-->
+<!--                <location>${SSL_TRUSTSTORE_PATH}</location>-->
+<!--                <password>${SSL_TRUSTSTORE_PASSPHRASE}</password>-->
+<!--            </trustStore>-->
+<!--        </ssl>-->
+<!--        &lt;!&ndash;        <tags>env:dev</tags>&ndash;&gt;-->
+<!--    </appender>-->
 
-    <receiver class="ch.qos.logback.classic.net.server.SSLServerSocketReceiver">
-        <port>6001</port>
-        <ssl>
-            <keyStore>
-                <location>${SSL_KEYSTORE_PATH}</location>
-                <password>${SSL_KEYSTORE_PASSPHRASE}</password>
-            </keyStore>
-        </ssl>
-    </receiver>
 
-    <logger name="nl.softcause.onestoplogshop.connector.TextClientHandler" additivity="false" level="debug">
-        <appender-ref ref="STDOUT"/>
-        <appender-ref ref="H2DB" />
-    </logger>
+    <!--    <receiver class="ch.qos.logback.classic.net.server.ServerSocketReceiver">-->
+<!--        <port>6000</port>-->
+<!--    </receiver>-->
+
+<!--    <receiver class="ch.qos.logback.classic.net.server.SSLServerSocketReceiver">-->
+<!--        <port>6001</port>-->
+<!--        <ssl>-->
+<!--            <keyStore>-->
+<!--                <location>${SSL_KEYSTORE_PATH}</location>-->
+<!--                <password>${SSL_KEYSTORE_PASSPHRASE}</password>-->
+<!--            </keyStore>-->
+<!--        </ssl>-->
+<!--    </receiver>-->
 
     <!-- LOG everything at INFO yourExpertiseLevel -->
     <root level="info">
         <appender-ref ref="STDOUT" />
-        <appender-ref ref="H2DB" />
+        <appender-ref ref="SOCKET" />
     </root>
 
 </configuration>

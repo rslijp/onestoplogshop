@@ -1,6 +1,9 @@
+DROP SEQUENCE HIBERNATE_SEQUENCE IF EXISTS;
 DROP TABLE logging_event_exception IF EXISTS;
 DROP TABLE logging_event_property IF EXISTS;
 DROP TABLE logging_event IF EXISTS;
+
+CREATE SEQUENCE HIBERNATE_SEQUENCE;
 
 CREATE TABLE logging_event (
                                timestmp BIGINT NOT NULL,

@@ -5,33 +5,35 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
+import java.util.Map;
+import nl.softcause.onestoplogshop.events.LoggingEventPublisher;
+import nl.softcause.onestoplogshop.model.LoggingEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.slf4j.MDC;
-import org.slf4j.helpers.BasicMarker;
-import org.slf4j.helpers.BasicMarkerFactory;
 
 public class TextClientHandler implements Runnable {
-    private static final Logger logger = LoggerFactory.getLogger(SocketListener.class);
+    private static final Logger logger = LoggerFactory.getLogger(PlainSocketListener.class);
 
     private final Socket clientSocket;
+    private final LoggingEventPublisher publisher;
     private BufferedReader reader;
 
-    public TextClientHandler(Socket socket) {
+    public TextClientHandler(Socket socket, LoggingEventPublisher publisher) {
         this.clientSocket = socket;
+        this.publisher = publisher;
     }
 
     public void run() {
-        MDC.put("nodeId", clientSocket.getInetAddress().getHostName());
-        MDC.put("applicationName", "socketListener");
-        MDC.put("version", "-");
+        var nodeId =  clientSocket.getInetAddress().getHostName();
+
+
         try (var reader = new BufferedReader(
                 new InputStreamReader
                         (this.clientSocket.getInputStream(), StandardCharsets.UTF_8))) {
             this.reader = reader;
             String line;
             while ((line = reader.readLine())!=null) {
-                logger.info(line);
+                publisher.publishEvent(buildMessage(nodeId, line));
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -44,7 +46,13 @@ public class TextClientHandler implements Runnable {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            MDC.clear();
         }
+    }
+
+    private LoggingEvent buildMessage(String nodeId, String line) {
+        var loggingEvent = LoggingEvent.fromText(line, "socketListener", Map.of(
+                "nodeId", nodeId,
+                "applicationName", "socketListener"));
+        return loggingEvent;
     }
 }

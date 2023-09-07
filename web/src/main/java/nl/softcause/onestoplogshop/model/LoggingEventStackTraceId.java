@@ -6,11 +6,11 @@ import java.util.Objects;
 public class LoggingEventStackTraceId implements Serializable {
     private Long i;
 
-    private LogginEvent event;
+    private LoggingEvent event;
 
     public LoggingEventStackTraceId(){}
 
-    public LoggingEventStackTraceId(Long i, LogginEvent event) {
+    public LoggingEventStackTraceId(Long i, LoggingEvent event) {
         this.i = i;
         this.event = event;
     }

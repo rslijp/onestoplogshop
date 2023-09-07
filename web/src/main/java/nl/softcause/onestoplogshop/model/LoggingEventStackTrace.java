@@ -1,8 +1,5 @@
 package nl.softcause.onestoplogshop.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import java.time.Instant;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,7 +8,6 @@ import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import nl.softcause.onestoplogshop.util.InstantSerializer;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
@@ -28,16 +24,26 @@ public class LoggingEventStackTrace {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "EVENT_ID", nullable = true)
     @Fetch(value = FetchMode.SELECT)
-    private LogginEvent event;
+    private LoggingEvent event;
 
     @Column(name="TRACE_LINE")
     private String line;
+
+
+
+    public static LoggingEventStackTrace fromVo(LoggingEvent event, int i, StackTraceElement ste) {
+        var r = new LoggingEventStackTrace();
+        r.i=Long.valueOf(i);
+        r.line=ste.toString();
+        r.event=event;
+        return r;
+    }
 
     public Long getI() {
         return i;
     }
 
-    public LogginEvent getEvent() {
+    public LoggingEvent getEvent() {
         return event;
     }
 

@@ -57,7 +57,7 @@ function DiscoverLogs({additionalColumns, additionalFilter}) {
     function expandedRow(line){
         const date = new Date(line.at);
         const formattedDate = dayjs(date).format(DATE_FORMAT);
-        return <p className={"detail"}>
+        return <div className={"detail"}>
             <h5>At</h5>
             {formattedDate}<br/>
             <h5>Level</h5>
@@ -71,7 +71,14 @@ function DiscoverLogs({additionalColumns, additionalFilter}) {
             <h5>Class</h5>
             {line.className}.{line.methodName}<br/>
             <h5>Stacktrace</h5>
-            {line.stackTrace||"-"}<br/>
+            {line.stackTrace?
+                <table>
+                    <tbody>
+                        {line.stackTrace.map((l,i)=><tr key={i}><td>{l}</td></tr>)}
+                    </tbody>
+                </table>
+                :"-"}
+            <br/>
             {line.properties && Object.keys(line.properties).length>0 ?
                 <table>
                     <thead>
@@ -87,7 +94,7 @@ function DiscoverLogs({additionalColumns, additionalFilter}) {
                     </tbody>
                 </table> :
                 null}
-        </p>;
+        </div>;
     }
 
     function mapRow(line){

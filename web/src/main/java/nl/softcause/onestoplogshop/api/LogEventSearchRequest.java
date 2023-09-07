@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
-import nl.softcause.onestoplogshop.model.LogginEvent;
+import nl.softcause.onestoplogshop.model.LoggingEvent;
 import nl.softcause.onestoplogshop.search.SearchRequestBase;
 import nl.softcause.onestoplogshop.util.InstantDeserializer;
 import nl.softcause.onestoplogshop.util.InstantSerializer;
@@ -14,7 +14,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.jpa.domain.Specification;
 
 @JsonIgnoreProperties({"specification", "specificationWithoutExclusion"})
-public class LogEventSearchRequest extends SearchRequestBase<LogginEvent> {
+public class LogEventSearchRequest extends SearchRequestBase<LoggingEvent> {
 
     private Long fromId;
     private String message;
@@ -38,21 +38,21 @@ public class LogEventSearchRequest extends SearchRequestBase<LogginEvent> {
         setSortDir("DESC");
     }
 
-    private static Specification<LogginEvent> messageContainsIgnoreCase(String keyword) {
+    private static Specification<LoggingEvent> messageContainsIgnoreCase(String keyword) {
         return (root, query, cb) -> cb.like(cb.lower(root.get("message")), "%" + keyword + "%");
     }
 
-    private static Specification<LogginEvent> messageFromId(Long id) {
+    private static Specification<LoggingEvent> messageFromId(Long id) {
         return (root, query, cb) -> cb.lessThan(root.get("id"), id);
     }
 
-    private static Specification<LogginEvent> isLevel(String level) {
+    private static Specification<LoggingEvent> isLevel(String level) {
         return (root, query, cb) -> cb.equal(root.get("level"), level);
     }
 
     @Override
-    public Specification<LogginEvent> getSpecification() {
-        Specification<LogginEvent> spec = null;
+    public Specification<LoggingEvent> getSpecification() {
+        Specification<LoggingEvent> spec = null;
         if (fromId != null) {
             spec = add(spec, Specification.where(messageFromId(fromId)));
         }

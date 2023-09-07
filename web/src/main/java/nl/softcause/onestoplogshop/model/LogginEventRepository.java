@@ -7,10 +7,10 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface LogginEventRepository
-            extends JpaRepository<LogginEvent, Long>, JpaSpecificationExecutor<LogginEvent> {
+            extends JpaRepository<LoggingEvent, Long>, JpaSpecificationExecutor<LoggingEvent> {
 
-    List<LogginEvent> findFirst20WithIdBeforeOrderDescById(Long id);
+    List<LoggingEvent> findFirst20WithIdBeforeOrderDescById(Long id);
 
-    @Query(value = "select distinct p from LogginEvent e join e.properties as p where index(p)=:field", nativeQuery = false)
+    @Query(value = "select distinct p from LoggingEvent e join e.properties as p where index(p)=:field", nativeQuery = false)
     List<String> findFieldValues(@Param("field") String field);
 }
