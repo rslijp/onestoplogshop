@@ -10,7 +10,7 @@ spring:
   application:
     name: onestoplogshop
   datasource:
-    url: jdbc:h2:file:./onestoplogshop
+    url: ${H2_CONNECTION_STRING}
     driverClassName: org.h2.Driver
     username: sa
     password: password

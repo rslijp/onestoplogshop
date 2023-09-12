@@ -22,6 +22,8 @@ CREATE TABLE logging_event (
                                caller_line CHAR(4),
                                event_id IDENTITY NOT NULL);
 
+CREATE INDEX logevent_level ON logging_event (level_string);
+CREATE INDEX logevent_timestamp ON logging_event (timestmp);
 
 CREATE TABLE logging_event_property (
                                         event_id BIGINT NOT NULL,
@@ -29,6 +31,9 @@ CREATE TABLE logging_event_property (
                                         mapped_value LONGVARCHAR,
                                         PRIMARY KEY(event_id, mapped_key),
                                         FOREIGN KEY (event_id) REFERENCES logging_event(event_id) ON DELETE CASCADE);
+
+CREATE INDEX logging_event_property_keys ON logging_event_property (mapped_key);
+CREATE INDEX logging_event_property_values ON logging_event_property (mapped_key, mapped_value);
 
 CREATE TABLE logging_event_exception (
                                          event_id BIGINT NOT NULL,
