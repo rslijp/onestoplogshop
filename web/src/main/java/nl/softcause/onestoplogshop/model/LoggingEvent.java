@@ -85,7 +85,7 @@ public class LoggingEvent {
         msg.level = vo.getLevel().toString();
         msg.message = vo.getFormattedMessage();
         msg.loggerName = vo.getLoggerContextVO().getName();
-        if (vo.hasCallerData()) {
+        if (vo.hasCallerData() && vo.getCallerData().length>0) {
             msg.fileName = vo.getCallerData()[0].getFileName();
             msg.className = vo.getCallerData()[0].getClassName();
             msg.methodName = vo.getCallerData()[0].getMethodName();
