@@ -5,14 +5,18 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
+import java.util.stream.Collectors;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -32,73 +36,72 @@ public class LoggingEvent {
     @GeneratedValue
     @Column(name = "EVENT_ID")
     private Long id;
-    @Column(name = "TIMESTMP")
+    @Column(name="TIMESTMP")
     private long epochTimeStamp;
-    @Column(name = "LEVEL_STRING")
+    @Column(name="LEVEL_STRING")
     private String level;
-    @Column(name = "FORMATTED_MESSAGE")
+    @Column(name="FORMATTED_MESSAGE")
     private String message;
 
-    @Column(name = "LOGGER_NAME")
+    @Column(name="LOGGER_NAME")
     private String loggerName;
 
 
-    @Column(name = "CALLER_FILENAME")
+    @Column(name="CALLER_FILENAME")
     private String fileName;
 
-    @Column(name = "CALLER_CLASS")
+    @Column(name="CALLER_CLASS")
     private String className;
 
-    @Column(name = "CALLER_METHOD")
+    @Column(name="CALLER_METHOD")
     private String methodName;
 
-    @Column(name = "CALLER_LINE")
+    @Column(name="CALLER_LINE")
     private Long lineNumber;
 
-    @Column(name = "THREAD_NAME")
+    @Column(name="THREAD_NAME")
     private String threadName;
 
     @JsonIgnore
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "event", targetEntity = LoggingEventStackTrace.class, cascade = CascadeType.ALL, orphanRemoval = true)
-    @OrderBy(value = "i")
+    @OrderBy(value="i")
     private List<LoggingEventStackTrace> stackTraces;
 
     @ElementCollection
-    @JoinTable(name = "LOGGING_EVENT_PROPERTY", joinColumns = @JoinColumn(name = "EVENT_ID"))
-    @MapKeyColumn(name = "MAPPED_KEY")
-    @Column(name = "MAPPED_VALUE")
+    @JoinTable(name="LOGGING_EVENT_PROPERTY", joinColumns=@JoinColumn(name="EVENT_ID"))
+    @MapKeyColumn(name="MAPPED_KEY")
+    @Column(name="MAPPED_VALUE")
     private Map<String, String> properties;
 
-    public static LoggingEvent fromText(String message, String loggerName, Map<String, String> properties) {
+    public static LoggingEvent fromText(String message, String loggerName, Map<String, String> properties){
         var msg = new LoggingEvent();
-        msg.level = "INFO";
-        msg.loggerName = loggerName;
-        msg.message = message;
-        msg.epochTimeStamp = System.currentTimeMillis();
-        msg.properties = properties;
+        msg.level="INFO";
+        msg.loggerName=loggerName;
+        msg.message=message;
+        msg.epochTimeStamp=System.currentTimeMillis();
+        msg.properties=properties;
         return msg;
     }
 
     public static LoggingEvent fromVo(LoggingEventVO vo) {
         var msg = new LoggingEvent();
-        msg.epochTimeStamp = vo.getTimeStamp();
-        msg.level = vo.getLevel().toString();
-        msg.message = vo.getFormattedMessage();
-        msg.loggerName = vo.getLoggerContextVO().getName();
-        if (vo.hasCallerData() && vo.getCallerData().length>0) {
+        msg.level="INFO";
+        msg.epochTimeStamp=vo.getTimeStamp();
+        msg.level=vo.getLevel().toString();
+        msg.message=vo.getFormattedMessage();
+        msg.loggerName=vo.getLoggerContextVO().getName();
+        if(vo.hasCallerData()) {
             msg.fileName = vo.getCallerData()[0].getFileName();
             msg.className = vo.getCallerData()[0].getClassName();
             msg.methodName = vo.getCallerData()[0].getMethodName();
             msg.lineNumber = Long.valueOf(vo.getCallerData()[0].getLineNumber());
         }
-        msg.threadName = vo.getThreadName();
-        msg.epochTimeStamp = System.currentTimeMillis();
-        msg.properties = vo.getMDCPropertyMap();
-        if (vo.hasCallerData() &&
-                vo.getCallerData().length > 1 &&
-                (msg.level.equals("ERROR") || msg.level.equals("WARN"))) {
-            msg.stackTraces = new ArrayList<>();
-            for (var i = 0; i < vo.getCallerData().length; i++) {
+        msg.threadName=vo.getThreadName();
+        msg.epochTimeStamp=System.currentTimeMillis();
+        msg.properties=vo.getMDCPropertyMap();
+        if(vo.hasCallerData() && vo.getCallerData().length>1){
+            msg.stackTraces=new ArrayList<>();
+            for(var i=0; i<vo.getCallerData().length; i++){
                 msg.stackTraces.add(LoggingEventStackTrace.fromVo(msg, i, vo.getCallerData()[i]));
             }
         }
@@ -166,10 +169,8 @@ public class LoggingEvent {
 //    }
 
     public String[] getStackTrace() {
-        if (getStackTraces() == null || getStackTraces().size() == 0) {
-            return null;
-        }
-        return getStackTraces().stream().map(s -> s.getLine()).toArray(String[]::new);
+        if(getStackTraces()==null || getStackTraces().size()==0) return null;
+        return getStackTraces().stream().map(s->s.getLine()).toArray(String[]::new);
     }
 
     public Map<String, String> getProperties() {
