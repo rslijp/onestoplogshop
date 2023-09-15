@@ -38,26 +38,14 @@ public class SSLLogbackSocketClientFactory implements Runnable {
             // client request
             while (true) {
 
-                // socket object to receive incoming client
-                // requests
-                Socket client = server.accept();
-
-                // Displaying that new client is connected
-                // to server
-                logger.debug("New client connected {}",client.getInetAddress().getHostAddress());
-
-                // create a new thread object
-                var clientSock
-                        = new ObjectClientHandler(client, publisher);
-
-                // This thread will handle the client
-                // separately
-                new Thread(clientSock).start();
+                acceptSocket();
             }
         }
         catch (IOException e) {
+            logger.error("Failed to open socket {}. {}", socketPort, e.getMessage(), e);
             e.printStackTrace();
         } catch (Exception e) {
+            logger.error("Failed to open socket {}. {}", socketPort, e.getMessage(), e);
             e.printStackTrace();
         } finally {
             if (server != null) {
@@ -68,6 +56,28 @@ public class SSLLogbackSocketClientFactory implements Runnable {
                     e.printStackTrace();
                 }
             }
+        }
+    }
+
+    private void acceptSocket() {
+        try {
+            // socket object to receive incoming client
+            // requests
+            Socket client = server.accept();
+
+            // Displaying that new client is connected
+            // to server
+            logger.info("New SSL client connected {}", client.getInetAddress().getHostAddress());
+
+            // create a new thread object
+            var clientSock
+                    = new ObjectClientHandler(client, publisher);
+
+            // This thread will handle the client
+            // separately
+            new Thread(clientSock).start();
+        } catch (IOException e){
+            logger.error("Failed to acceptsocter. {}", e.getMessage(),e);
         }
     }
 }

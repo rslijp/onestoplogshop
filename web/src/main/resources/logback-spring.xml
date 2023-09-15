@@ -26,6 +26,7 @@
               class="ch.qos.logback.classic.net.SocketAppender">
         <remoteHost>127.0.0.1</remoteHost>
         <port>6000</port>
+        <includeCallerData>true</includeCallerData>
     </appender>
 
 <!--    <appender name="SSL_SOCKET"-->

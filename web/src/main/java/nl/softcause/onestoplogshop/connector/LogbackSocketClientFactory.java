@@ -15,15 +15,13 @@ public class LogbackSocketClientFactory implements Runnable {
     private ServerSocket server;
 
     // Constructor
-    public LogbackSocketClientFactory(int socketPort, LoggingEventPublisher publisher)
-    {
+    public LogbackSocketClientFactory(int socketPort, LoggingEventPublisher publisher) {
         this.socketPort = socketPort;
         this.publisher = publisher;
     }
 
-    public void run()
-    {
-        logger.info("Creating listener on port "+socketPort);
+    public void run() {
+        logger.info("Creating listener on port " + socketPort);
         try {
 
             // server is listening on port 1234
@@ -34,35 +32,41 @@ public class LogbackSocketClientFactory implements Runnable {
             // client request
             while (true) {
 
-                // socket object to receive incoming client
-                // requests
-                Socket client = server.accept();
-
-                // Displaying that new client is connected
-                // to server
-                logger.debug("New client connected {}",client.getInetAddress().getHostAddress());
-
-                // create a new thread object
-                var clientSock
-                        = new ObjectClientHandler(client, publisher);
-
-                // This thread will handle the client
-                // separately
-                new Thread(clientSock).start();
+                acceptSocket();
             }
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
-        }
-        finally {
+            logger.error("Failed to open socket {}. {}", socketPort, e.getMessage(), e);
+        } finally {
             if (server != null) {
                 try {
                     server.close();
-                }
-                catch (IOException e) {
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
+        }
+    }
+
+    private void acceptSocket() {
+        try {
+            // socket object to receive incoming client
+            // requests
+            Socket client = server.accept();
+
+            // Displaying that new client is connected
+            // to server
+            logger.info("New client connected {}", client.getInetAddress().getHostAddress());
+
+            // create a new thread object
+            var clientSock
+                    = new ObjectClientHandler(client, publisher);
+
+            // This thread will handle the client
+            // separately
+            new Thread(clientSock).start();
+        } catch (IOException e) {
+            logger.error("Failed to open socket {}. {}", socketPort, e.getMessage(), e);
         }
     }
 }
