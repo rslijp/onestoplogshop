@@ -1,8 +1,8 @@
 package nl.softcause.onestoplogshop.search;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.criteria.MapJoin;
 import java.time.Instant;
-import javax.persistence.criteria.MapJoin;
 import org.springframework.data.jpa.domain.Specification;
 
 public abstract class SearchRequestBase<T> extends SearchRequest {

@@ -22,9 +22,9 @@ function DiscoverLogs({additionalColumns, additionalFilter}) {
     if(logs.read){
         let fromId = '';
         if(logs.data.length>0){
-            fromId=logs.data[logs.data.length-1].id;
+            fromId="/"+logs.data[logs.data.length-1].id;
         }
-        fetch(`/api/discover-logs/${fromId}`, {
+        fetch(`/api/discover-logs${fromId}`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

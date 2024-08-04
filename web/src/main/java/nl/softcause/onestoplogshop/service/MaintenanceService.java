@@ -1,11 +1,8 @@
 package nl.softcause.onestoplogshop.service;
 
-import java.math.BigInteger;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
 import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -30,7 +27,7 @@ public class MaintenanceService {
     public long getTableRowCount(String tableName){
         String sql = String.format("select count(*) from %s",tableName);
         Query query = entityManager.createNativeQuery(sql);
-        List<BigInteger> empObject = query.getResultList();
+        List<Long> empObject = query.getResultList();
         long value = empObject.get(0).longValue();
         logger.debug("Table size of {} is {}", tableName, value);
         return value;

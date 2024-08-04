@@ -1,3 +1,5 @@
 export function csrfToken(){
-    return document.cookie.replace(/(?:(?:^|.*;\s*)XSRF-TOKEN\s*=\s*([^;]*).*$)|^.*$/, '$1');
+    const cookieStr = ""+document.cookie;
+    // console.log(cookieStr);
+    return cookieStr.replace(/(?:(?:^|.*;\s*)XSRF-TOKEN\s*=\s*([^;]*).*$)|^.*$/, '$1');
 }

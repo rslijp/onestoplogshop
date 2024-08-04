@@ -19,7 +19,7 @@ spring:
   #    cache: false
   jpa:
     show-sql: false
-    database-platform: org.hibernate.dialect.H2Dialect
+#    database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
       ddl-auto: none
     open-in-view: true
@@ -64,5 +64,7 @@ listener:
 
 
 onestoplogshop:
+  jwt:
+    secret: 12313ajhkahkjhasda
   maintenance:
     max-rows: 100000

@@ -1,15 +1,11 @@
 package nl.softcause.onestoplogshop.api;
 
-import java.math.BigInteger;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
 import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
-import nl.softcause.onestoplogshop.config.LoggingProperties;
-import nl.softcause.onestoplogshop.model.LogginEventRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,7 +22,7 @@ public class StatisticsController {
     public long getTableRowCount(String tableName){
         String sql = String.format("select count(*) from %s",tableName);
         Query query = entityManager.createNativeQuery(sql);
-        List<BigInteger> empObject = query.getResultList();
+        List<Long> empObject = query.getResultList();
         long value = empObject.get(0).longValue();
         logger.debug("Table size of {} is {}", tableName, value);
         return value;
@@ -35,7 +31,7 @@ public class StatisticsController {
     public long getTableSizeInBytes(String tableName){
         String sql = String.format("CALL DISK_SPACE_USED('%s');",tableName);
         Query query = entityManager.createNativeQuery(sql);
-        List<BigInteger> empObject = query.getResultList();
+        List<Long> empObject = query.getResultList();
         long value = empObject.get(0).longValue();
         logger.debug("Table size of {} is {}", tableName, value);
         return value;

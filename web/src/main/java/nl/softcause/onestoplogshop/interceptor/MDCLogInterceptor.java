@@ -1,8 +1,7 @@
 package nl.softcause.onestoplogshop.interceptor;
 
-import com.sun.security.auth.UserPrincipal;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.lang.Nullable;
